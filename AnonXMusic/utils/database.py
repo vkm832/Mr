@@ -7,6 +7,7 @@ from AnonXMusic import userbot
 from AnonXMusic.core.mongo import mongodb
 
 
+
 songrequestdb = mongodb.songrequests
 groupstatsdb = mongodb.groupstats
 authdb = mongodb.adminauth
@@ -745,4 +746,5 @@ async def get_top_groups_by_requests(limit: int = 10) -> list:
 async def get_group_request_stats(chat_id: int) -> dict:
     """Get detailed stats for a specific group"""
     return await songrequestdb.find_one({"chat_id": chat_id})
+
 
