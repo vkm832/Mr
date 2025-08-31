@@ -1,3 +1,4 @@
+
 import asyncio
 from datetime import datetime, timedelta
 from pyrogram import filters
@@ -7,7 +8,13 @@ from pyrogram.enums import ParseMode
 import config
 from AnonXMusic import app
 from AnonXMusic.misc import SUDOERS
-from AnonXMusic.utils.database import get_top_groups_by_requests, get_served_chats, get_group_request_stats
+from AnonXMusic.utils.database import (
+    get_top_groups_by_requests, 
+    get_served_chats, 
+    get_group_request_stats,
+    get_top_users_global,
+    get_user_stats_detailed
+)
 from AnonXMusic.utils.decorators.language import language
 from config import BANNED_USERS
 
@@ -280,5 +287,166 @@ async def group_stats_command(client, message: Message, _):
     except Exception as e:
         await message.reply_text(
             f"<blockquote>❌ <b>Error:</b> <code>{str(e)}</code></blockquote>", 
+            parse_mode=ParseMode.HTML
+        )
+
+@app.on_message(filters.command(["topusers", "topu"]) & ~BANNED_USERS)
+@language
+async def top_users_command(client, message: Message, _):
+    """Show top 10 users globally by song requests"""
+    
+    # Send initial message
+    msg = await message.reply_text("🔍 <b>Fetching top users data...</b>", parse_mode=ParseMode.HTML)
+    
+    try:
+        # Get top users from database
+        top_users = await get_top_users_global(10)
+        
+        if not top_users:
+            return await msg.edit_text(
+                "<blockquote>❌ <b>No user statistics found!</b>\n\n<i>Users need to request songs to appear in rankings.</i></blockquote>",
+                parse_mode=ParseMode.HTML
+            )
+        
+        # Build the ranking message with HTML formatting
+        text = f"<blockquote>👥 <b>TOP 10 USERS BY SONG REQUESTS</b>\n\n"
+        text += f"📊 <b>Ranked by total song requests across all groups</b>\n"
+        text += f"🎵 <b>Bot:</b> {app.mention}\n\n"
+        
+        # Add rankings
+        for i, user in enumerate(top_users, 1):
+            user_id = user.get("_id", "Unknown")
+            total_requests = user.get("total_requests", 0)
+            groups = user.get("groups", [])
+            group_count = len(groups)
+            
+            # Get user mention if possible
+            try:
+                user_info = await app.get_users(int(user_id))
+                user_mention = user_info.mention
+                user_name = user_info.first_name or "Unknown"
+            except:
+                user_mention = f"<code>{user_id}</code>"
+                user_name = "Unknown User"
+            
+            # Add ranking emoji
+            if i == 1:
+                emoji = "🥇"
+            elif i == 2:
+                emoji = "🥈"
+            elif i == 3:
+                emoji = "🥉"
+            else:
+                emoji = f"<b>{i}.</b>"
+            
+            text += f"{emoji} {user_mention}\n"
+            text += f"    ├ <b>🎵 Total Requests:</b> <code>{total_requests:,}</code>\n"
+            text += f"    ├ <b>🏘 Active Groups:</b> <code>{group_count}</code>\n"
+            text += f"    └ <b>🆔 User ID:</b> <code>{user_id}</code>\n\n"
+        
+        # Add footer
+        text += f"<b>🔄 Updated:</b> <code>{datetime.now().strftime('%d/%m/%Y %H:%M')}</code>\n"
+        text += f"<b>💡 Tip:</b> Use <code>/userinfo &lt;user_id&gt;</code> to check specific user stats</blockquote>"
+        
+        # Send the ranking
+        await msg.edit_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+        
+    except Exception as e:
+        await msg.edit_text(
+            f"<blockquote>❌ <b>Error occurred while fetching users data!</b>\n\n"
+            f"<b>Error:</b> <code>{str(e)}</code>\n\n"
+            f"<i>Please try again later or contact support.</i></blockquote>",
+            parse_mode=ParseMode.HTML
+        )
+
+@app.on_message(filters.command(["userinfo", "uinfo"]) & ~BANNED_USERS)
+@language
+async def user_info_command(client, message: Message, _):
+    """Show detailed statistics for a specific user"""
+    
+    # Check if user ID is provided
+    if len(message.text.split()) < 2:
+        return await message.reply_text(
+            "<blockquote>❌ <b>Usage Error!</b>\n\n"
+            "<b>Usage:</b> <code>/userinfo &lt;user_id&gt;</code>\n"
+            "<b>Example:</b> <code>/userinfo 123456789</code>\n\n"
+            "<b>💡 Tip:</b> Use <code>/topusers</code> to see top users with their IDs</blockquote>",
+            parse_mode=ParseMode.HTML
+        )
+    
+    try:
+        user_id = int(message.text.split()[1])
+    except ValueError:
+        return await message.reply_text(
+            "<blockquote>❌ <b>Invalid User ID!</b>\n\n"
+            "<b>Please provide a valid numeric user ID</b>\n"
+            "<b>Example:</b> <code>/userinfo 123456789</code></blockquote>",
+            parse_mode=ParseMode.HTML
+        )
+    
+    # Send loading message
+    msg = await message.reply_text(
+        f"<blockquote>🔍 <b>Checking user data for:</b> <code>{user_id}</code>...</blockquote>", 
+        parse_mode=ParseMode.HTML
+    )
+    
+    try:
+        user_stats = await get_user_stats_detailed(user_id)
+        
+        if not user_stats or user_stats.get("total_requests", 0) == 0:
+            return await msg.edit_text(
+                f"<blockquote>❌ <b>No statistics found!</b>\n\n"
+                f"<b>User ID:</b> <code>{user_id}</code>\n\n"
+                f"<i>This user has not made any song requests yet.</i></blockquote>",
+                parse_mode=ParseMode.HTML
+            )
+        
+        # Get user info
+        try:
+            user_info = await app.get_users(user_id)
+            user_mention = user_info.mention
+            user_name = user_info.first_name or "Unknown"
+            username = f"@{user_info.username}" if user_info.username else "No username"
+        except:
+            user_mention = f"<code>{user_id}</code>"
+            user_name = "Unknown User"
+            username = "No username"
+        
+        # Build response
+        text = f"<blockquote>👤 <b>USER STATISTICS</b>\n\n"
+        text += f"<b>🏷 User:</b> {user_mention}\n"
+        text += f"<b>👤 Name:</b> <b>{user_name}</b>\n"
+        text += f"<b>🆔 User ID:</b> <code>{user_id}</code>\n"
+        text += f"<b>📝 Username:</b> <code>{username}</code>\n\n"
+        text += f"<b>🎵 Total Requests:</b> <code>{user_stats['total_requests']:,}</code>\n"
+        text += f"<b>🏘 Active Groups:</b> <code>{user_stats['group_count']}</code>\n\n"
+        
+        # Show top 5 groups where user is most active
+        text += f"<b>🏆 TOP GROUPS BY REQUESTS:</b>\n"
+        for i, group in enumerate(user_stats["groups"][:5], 1):
+            chat_title = group.get("chat_title", "Unknown Group")
+            chat_username = group.get("chat_username")
+            requests = group.get("requests", 0)
+            
+            # Escape HTML
+            chat_title_escaped = chat_title.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            
+            # Create group link
+            if chat_username and not str(chat_username).startswith("None"):
+                group_link = f'<a href="https://t.me/{chat_username}">{chat_title_escaped}</a>'
+            else:
+                group_link = chat_title_escaped
+            
+            text += f"    <b>{i}.</b> {group_link} - <code>{requests}</code> requests\n"
+        
+        text += f"\n<b>🔄 Checked:</b> <code>{datetime.now().strftime('%d/%m/%Y %H:%M')}</code></blockquote>"
+        
+        await msg.edit_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=False)
+        
+    except Exception as e:
+        await msg.edit_text(
+            f"<blockquote>❌ <b>Error occurred while checking user!</b>\n\n"
+            f"<b>User ID:</b> <code>{user_id}</code>\n"
+            f"<b>Error:</b> <code>{str(e)}</code></blockquote>",
             parse_mode=ParseMode.HTML
         )
