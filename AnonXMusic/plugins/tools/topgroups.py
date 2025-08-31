@@ -18,7 +18,7 @@ from AnonXMusic.utils.database import (
 from AnonXMusic.utils.decorators.language import language
 from config import BANNED_USERS
 
-@app.on_message(filters.command(["rankinggroups" "topgc", "topgroups"]) & ~BANNED_USERS)
+@app.on_message(filters.command(["rankinggroups", "topgc", "topgroups"]) & ~BANNED_USERS)
 @language
 async def top_groups_command(client, message: Message, _):
     """Show top 10 groups by song requests"""
