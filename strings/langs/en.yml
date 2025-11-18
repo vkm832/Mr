@@ -176,8 +176,8 @@ queue_7 : "\n𝖢𝗅𝗂𝖼𝗄 𝖮𝗇 𝖳𝗁𝖾 𝖡𝗎𝗍𝗍𝗈𝗇
 queue_8 : "<b>{0} 𝖯𝗅𝖺𝗒𝖾𝗋</b>\n\n🎄 <b>𝖲𝗍𝗋𝖾𝖺𝗆𝗂𝗇𝗀 :</b> {1}\n\n🔗 <b>𝖲𝗍𝗋𝖾𝖺𝗆 𝖳𝗒𝗉𝖾 :</b> {2}\n🥀 <b> 𝖱𝖾𝗊𝗎𝖾𝗌𝗍𝖾𝖽 𝖡𝗒 :</b> {3}\n{4}"
 
 
-stream_1: "<blockquote expandable><b>✯ Shraddha Streaming</b><blockquote>\n<blockquote expandable>\n\n✯ Title: <a href={0}>{1}</a>\n✯ Duration: {2} minutes\n✯ Requested By: {3}</blockquote>"
-stream_2: "<blockquote expandable><b>✯ Shraddha Streaming</b><blockquote>\n<blockquote expandable>\n\n✯ Title: <a href={0}>{1}</a>\n✯ Duration: {2} minutes\n✯ Requested By: {3}</blockquote>"
+stream_1: "<blockquote expandable><b>✯ Shraddha Streaming</b><blockquote>\n<blockquote expandable><\n\n✯ Title: <a href={0}>{1}</a>\n✯ Duration: {2} minutes\n✯ Requested By: {3}</blockquote>"
+stream_2: "<blockquote expandable><b>✯ Shraddha Streaming</b><blockquote><\n<blockquote expandable>\n\n✯ Title: <a href={0}>{1}</a>\n✯ Duration: {2} minutes\n✯ Requested By: {3}</blockquote>"
 
 
 CLOSE_BUTTON  : "𝑪𝒍𝒐𝒔𝒆"
