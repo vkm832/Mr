@@ -175,8 +175,8 @@ queue_7 : "\n𝖢𝗅𝗂𝖼𝗄 𝖮𝗇 𝖳𝗁𝖾 𝖡𝗎𝗍𝗍𝗈𝗇
 queue_8 : "<b>{0} 𝖯𝗅𝖺𝗒𝖾𝗋</b>\n\n🎄 <b>𝖲𝗍𝗋𝖾𝖺𝗆𝗂𝗇𝗀 :</b> {1}\n\n🔗 <b>𝖲𝗍𝗋𝖾𝖺𝗆 𝖳𝗒𝗉𝖾 :</b> {2}\n🥀 <b> 𝖱𝖾𝗊𝗎𝖾𝗌𝗍𝖾𝖽 𝖡𝗒 :</b> {3}\n{4}"
 
 
-stream_1: "<blockquote expandable><b>❀ Sʜʀᴀᴅᴅʜᴀ Sᴛʀᴇᴀᴍɪɴɢ</b>\n\n❀ Tɪᴛʟᴇ : <a href={0}>{1}</a>\n❀ Duration : {2} ᴍɪɴᴜᴛᴇs\n❀ Rᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {3}</blockquote>"
-stream_2: "<blockquote expandable><b>❀ Sʜʀᴀᴅᴅʜᴀ Sᴛʀᴇᴀᴍɪɴɢ</b>\n\n❀ Tɪᴛʟᴇ : <a href={0}>{1}</a>\n {2} ᴍɪɴᴜᴛᴇs\n❀ Rᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {3}</blockquote>"
+stream_1: "<blockquote expandable><b>❀ 𝑺𝒉𝒊𝒏𝒆 𝒎𝒖𝒔𝒊𝒄 𝒔𝒕𝒓𝒆𝒂𝒎𝒊𝒏𝒈</b>\n\n❀ Tɪᴛʟᴇ : <a href={0}>{1}</a>\n❀ Duration : {2} ᴍɪɴᴜᴛᴇs\n❀ Rᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {3}</blockquote>"
+stream_2: "<blockquote expandable><b>❀ 𝑺𝒉𝒊𝒏𝒆 𝒎𝒖𝒔𝒊𝒄 𝒔𝒕𝒓𝒆𝒂𝒎𝒊𝒏𝒈</b>\n\n❀ Tɪᴛʟᴇ : <a href={0}>{1}</a>\n {2} ᴍɪɴᴜᴛᴇs\n❀ Rᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {3}</blockquote>"
 
 
 CLOSE_BUTTON  : "✪ ᴄʟᴏꜱᴇ ✪"
@@ -184,14 +184,14 @@ BACK_BUTTON : "ʙᴀᴄᴋ"
 
 PL_B_1 : "𝗠𝗲𝗻𝘂"
 S_B_1 : "Add Me In Your Group"
-S_B_2 : "𝑺𝒉𝒓𝒂𝒅𝒅𝒉𝒂 𝑴𝒖𝒔𝒊𝒄 🎶"
+S_B_2 : "𝑺𝒉𝒊𝒏𝒆 𝒎𝒖𝒔𝒊𝒄 🎶"
 S_B_3 : "𝗣𝗹𝗮𝘆 𝗜𝗻 𝗚𝗿𝗼𝘂𝗽 +"
 S_B_4 : "𝖧𝖾𝗅𝗉 𝖠𝗇𝖽 𝖢𝗈𝗆𝗆𝖺𝗇𝖽𝗌"
 S_B_5 : "𝖮𝗐𝗇𝖾𝗋"
 S_B_6 : "𝖢𝗁𝖺𝗇𝗇𝖾𝗅"
-S_B_7 : "𝑺𝒉𝒓𝒂𝒅𝒅𝒉𝒂 𝑴𝒖𝒔𝒊𝒄 🎶"
+S_B_7 : "𝑺𝒉𝒊𝒏𝒆 𝒎𝒖𝒔𝒊𝒄 🎶"
 S_B_8 : "𝒀𝒐𝒖𝑻𝒖𝒃𝒆"
-S_B_9 : "𝑺𝒉𝒓𝒂𝒅𝒅𝒉𝒂 𝑴𝒖𝒔𝒊𝒄 🎶"
+S_B_9 : "𝑺𝒉𝒊𝒏𝒆 𝒎𝒖𝒔𝒊𝒄 🎶"
 
 H_B_1 : "𝖠𝖽𝗆𝗂𝗇"
 H_B_2 : "𝖠𝗎𝗍𝗁"
